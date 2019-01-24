@@ -1,43 +1,55 @@
 package com.personal;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.hardware.Sensor;
+import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextClock;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+public class MainActivity extends AppCompatActivity {
+    private SensorManager mSensorManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        final TextView tvView = (TextView) findViewById(R.id.textView3);
-        final TextView txtVa11 = (TextView) findViewById(R.id.edtValor1);
-        final TextView txtVa12 = (TextView)findViewById(R.id.edtValor3);
-        final TextView txtVa13 = (TextView)findViewById(R.id.edtValor2);
-        Button botao = (Button) findViewById(R.id.button);
+//        final TextView tvView = (TextView) findViewById(R.id.textView3);
+//        final TextView txtVa11 = (TextView) findViewById(R.id.edtValor1);
+//        final TextView txtVa12 = (TextView)findViewById(R.id.edtValor3);
+//        final TextView txtVa13 = (TextView)findViewById(R.id.edtValor2);
+        final ListView lv = (ListView) findViewById(R.id.lvList);
 
-        botao.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        final List<Sensor> deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
 
 
-                int valor1 = Integer.parseInt(txtVa11.getText().toString());
-                int valor2 = Integer.parseInt(txtVa12.getText().toString());
-                int valor3 = Integer.parseInt(txtVa13.getText().toString());
+        final List<String> valores = Arrays.asList(new String[deviceSensors.size()]);
+
+        final ArrayAdapter<String> sensorNames = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_1);
+
+        for (int i=0; i < deviceSensors.size(); i++){
+
+            sensorNames.add(deviceSensors.get(i).getName());
 
 
-                int resultado = (valor3 * valor2)/valor1;
-                tvView.setText(""+resultado);
+        }
+        lv.setAdapter(sensorNames);
 
-            }
-        });
-    }
 
+        }
 }
+
+
