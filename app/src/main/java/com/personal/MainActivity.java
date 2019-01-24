@@ -25,27 +25,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        final TextView tvView = (TextView) findViewById(R.id.textView3);
-//        final TextView txtVa11 = (TextView) findViewById(R.id.edtValor1);
-//        final TextView txtVa12 = (TextView)findViewById(R.id.edtValor3);
-//        final TextView txtVa13 = (TextView)findViewById(R.id.edtValor2);
+//        Instanciar a list view
         final ListView lv = (ListView) findViewById(R.id.lvList);
 
+//        Instanciar o serviço de sensores
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+
+//        criar uma listsa de sensores
         final List<Sensor> deviceSensors = mSensorManager.getSensorList(Sensor.TYPE_ALL);
 
-
-        final List<String> valores = Arrays.asList(new String[deviceSensors.size()]);
-
+//        Instancia de array adapter, passando este contexto(Activity) + setando para simplelist
         final ArrayAdapter<String> sensorNames = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_1);
 
+//        laço de repetição para adicionar os nomes dos sensores no array adapter
         for (int i=0; i < deviceSensors.size(); i++){
 
             sensorNames.add(deviceSensors.get(i).getName());
 
 
         }
+
+//        passando o adapter para o list view
         lv.setAdapter(sensorNames);
 
 
